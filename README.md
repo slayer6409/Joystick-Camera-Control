@@ -2,38 +2,39 @@
 
 A mod that allows you to control the in game camera via joystick.
 
-Controls:
+
+## Controls
 
 
-Right Joystick:
+##### Right Joystick
 
-Click in Stick: Change Mode (From Normal to Turn)
+	Click in Stick: Change Mode (From Normal to Turn)
 
-Forward - Move Up
+	Forward - Move Up
 
-Back - Move Down
-
-
-
-In Normal Mode:
-
-Left joystick:
-
-Forward - Move forward
-
-Back - Move Back
-
-Left - Move Left
-
-Right - Move Right
+	Back - Move Down
 
 
 
-In Turn Mode:
+### In Normal Mode
 
-Left Joystick
+##### Left joystick
 
-Forward & Back - Tilt Camera Up and Down
+	Forward - Move forward
 
-Left & Right - Turn Camera Right and Left
+	Back - Move Back
+
+	Left - Move Left
+
+	Right - Move Right
+
+
+
+### In Turn Mode:
+
+##### Left Joystick
+
+	Forward & Back - Tilt Camera Up and Down
+
+	Left & Right - Turn Camera Right and Left
 
