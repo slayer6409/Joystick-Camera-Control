@@ -1,29 +1,12 @@
 ﻿using Better_Camera_Control;
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Harmony;
-using UnhollowerBaseLib;
-using UnhollowerRuntimeLib;
 using UIExpansionKit.API;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Rendering;
-using Object = UnityEngine.Object;
-using VRC.SDKBase;
 using VRC.UserCamera;
 using MelonLoader;
-using Il2CppSystem.Collections.Generic;
-using UnityEngine.XR;
 
 
-// ...
-[assembly: MelonInfo(typeof(BetterCameraControl), "Better Camera Control", "0.1", "Slayer")]
+[assembly: MelonInfo(typeof(BetterCameraControl), "Better Camera Control", "1.0", "Slayer")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 
@@ -41,15 +24,6 @@ namespace Better_Camera_Control
             
             ICustomShowableLayoutedMenu cm = ExpansionKitApi.CreateCustomQuickMenuPage(LayoutDescription.QuickMenu3Columns);
             ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu).AddSimpleButton("Toggle Camera Movement",toggleCameraMovement);
-            //cm.AddSimpleButton("Move Back", moveBack);
-            //cm.AddSimpleButton("Move Forward", moveForward);
-            //cm.AddSimpleButton("Rotate Right", rotateRight);
-            //cm.AddSimpleButton("Rotate Left", rotateLeft);
-            //cm.AddSimpleButton("Move Up", moveUp);
-            //cm.AddSimpleButton("Move Down", moveDown);
-            //cm.AddSpacer();
-            //cm.AddSimpleButton("Toggle Camera Movement", toggleCameraMovement);
-            //cm.AddSimpleButton("Back", () => cm.Hide());
         }
 
         public override void OnUpdate()
