@@ -6,7 +6,7 @@ using VRC.UserCamera;
 using MelonLoader;
 
 
-[assembly: MelonInfo(typeof(BetterCameraControl), "Better Camera Control", "1.0", "Slayer")]
+[assembly: MelonInfo(typeof(BetterCameraControl), "Better Camera Control", "1.0", "Slayer6409")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 
@@ -31,18 +31,37 @@ namespace Better_Camera_Control
             player = VRCPlayer.field_Internal_Static_VRCPlayer_0;
             if (player == null) return;
             //-1 to 1
+            
 
             if (CameraMovement)
             {
+                if (Input.GetKeyDown(KeyCode.Joystick1Button9))
+                {
+                    if (turnMode) turnMode = false;
+                    else turnMode = true;
+                }
 
-                if (Input.GetAxis("Horizontal") > 0f) rotate(Input.GetAxis("Horizontal"));
-                if (Input.GetAxis("Horizontal") < 0f) rotate(Input.GetAxis("Horizontal"));
-                if (Input.GetAxis("Vertical") < 0f) moveBack(Input.GetAxis("Vertical")/4);
-                if (Input.GetAxis("Vertical") > 0f) moveForward(Input.GetAxis("Vertical")/4);
-                //if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickHorizontal") > 0f)
-                //if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickHorizontal") < 0f)
-                if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical") < 0f) moveUp(Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical")/4);
-                if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical") > 0f) moveDown(Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical")/4);
+                if (turnMode)
+                {
+                    float movementMod = 2.0f;
+                    if (Input.GetAxis("Horizontal") > .2f) rotate(Input.GetAxis("Horizontal") * movementMod);
+                    if (Input.GetAxis("Horizontal") < -.2f) rotate(Input.GetAxis("Horizontal") * movementMod);
+                    if (Input.GetAxis("Vertical") < -.2f) rotateVert(Input.GetAxis("Vertical") * movementMod);
+                    if (Input.GetAxis("Vertical") > .2f) rotateVert(Input.GetAxis("Vertical") * movementMod);
+                }
+                else
+                {
+                    float movementMod = 15;
+                    if (Input.GetAxis("Horizontal") > .2f) moveHorizontal(Input.GetAxis("Horizontal") / movementMod);
+                    if (Input.GetAxis("Horizontal") < -.2f) moveHorizontal(Input.GetAxis("Horizontal") / movementMod);
+                    if (Input.GetAxis("Vertical") < -.2f) moveBack(Input.GetAxis("Vertical") / movementMod);
+                    if (Input.GetAxis("Vertical") > .2f) moveForward(Input.GetAxis("Vertical") / movementMod);
+                }
+                //moveHorizontal(float speed)
+                //if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickHorizontal") > .2f) rotateVert(Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickHorizontal")*1.5f);
+                //if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickHorizontal") < -.2f) rotateVert(Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickHorizontal")*1.5f);
+                if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical") < -.2f) moveUp(Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical") / 12);
+                if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical") > .2f) moveDown(Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical") / 12);
             }
         }
         
@@ -51,6 +70,7 @@ namespace Better_Camera_Control
         {
             if (CameraMovement)
             {
+                
                 CameraMovement = false;
                 player.field_Private_VRCPlayerApi_0.SetWalkSpeed(4);
                 player.field_Private_VRCPlayerApi_0.SetRunSpeed(8);
@@ -59,6 +79,14 @@ namespace Better_Camera_Control
             }
             else
             {
+                var cam = getCam();
+                if (cam != null)
+                {
+                    while (cam.prop_EnumPublicSealedvaAtLoWoCO5vUnique_0 != EnumPublicSealedvaAtLoWoCO5vUnique.World)
+                    {
+                        cam.viewFinder.transform.Find("PhotoControls/Left_Space").GetComponent<CameraInteractable>().Interact();
+                    }
+                }
                 CameraMovement = true;
                 player.field_Private_VRCPlayerApi_0.SetWalkSpeed(0);
                 player.field_Private_VRCPlayerApi_0.SetRunSpeed(0);
@@ -83,6 +111,15 @@ namespace Better_Camera_Control
             worldCameraVector += new Vector3((float)Math.Sin(camRot.y) * speed, 0f, (float)Math.Cos(camRot.y) * speed);
 
         }
+        private void moveHorizontal(float speed)
+        {
+            var camController = getCam();
+            var camRot = worldCameraQuaternion.ToEuler();
+            if (camController == null) return;
+            worldCameraVector += Vector3.Cross(Vector3.up,new Vector3((float)Math.Sin(camRot.y), 0f, (float)Math.Cos(camRot.y))*speed);
+
+        }
+
         private void moveUp(float speed)
         {
             var camController = getCam();
@@ -104,6 +141,12 @@ namespace Better_Camera_Control
             var camController = getCam();
             if (camController == null) return;
             worldCameraQuaternion *= Quaternion.Euler(0f, dir, 0f);
+        }
+        public void rotateVert(float dir)
+        {
+            var camController = getCam();
+            if (camController == null) return;
+            worldCameraQuaternion *= Quaternion.Euler(dir, 0f, 0f);
         }
 
         public static UserCameraController getCam()
@@ -136,6 +179,7 @@ namespace Better_Camera_Control
         }
 
         public static bool CameraMovement { get; set; } = false;
+        public static bool turnMode { get; set; } = false;
         public static VRCPlayer player { get; set; }
         public static float mSpeed { get; set; } = 0.25f;
 
