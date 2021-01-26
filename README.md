@@ -1,5 +1,24 @@
 # Better-Camera-Control
 
-Use the left joystick to move the camera forward or backward and to rotate the camera.
+A mod that allows you to control the in game camera via joystick.
 
-Use the right joystick to make the camera go up and down. 
+Controls:
+
+Right Joystick:
+Click in Stick: Change Mode (From Normal to Turn)
+Forward - Move Up
+Back - Move Down
+
+In Normal Mode:
+
+Left joystick:
+Forward - Move forward
+Back - Move Back
+Left - Move Left
+Right - Move Right
+
+In Turn Mode:
+
+Left Joystick
+Forward & Back - Tilt Camera Up and Down
+Left & Right - Turn Camera Right and Left
