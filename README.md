@@ -1,4 +1,4 @@
-# Better-Camera-Control
+# Joystick-Camera-Control
 
 A mod that allows you to control the in game camera via joystick.
 
