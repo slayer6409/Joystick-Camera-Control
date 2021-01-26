@@ -2,9 +2,9 @@
 
 A mod that allows you to control the in game camera via joystick.
 
-Requires UIExpansionKit.
+**Requires**  UIExpansionKit.
 
-Warning: The VRChat team doesn't like mods, so it is possible to get banned using mods, so use at your own risk. I am not responsible if you get banned.
+**Warning:** The VRChat team doesn't like mods, so it is possible to get banned using mods, so use at your own risk. I am not responsible if you get banned.
 
 
 ## Controls
