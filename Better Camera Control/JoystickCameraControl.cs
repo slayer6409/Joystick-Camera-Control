@@ -1,4 +1,4 @@
-﻿using Better_Camera_Control;
+﻿using Joystick_Camera_Control;
 using System;
 using UIExpansionKit.API;
 using UnityEngine;
@@ -6,21 +6,21 @@ using VRC.UserCamera;
 using MelonLoader;
 
 
-[assembly: MelonInfo(typeof(BetterCameraControl), "Better Camera Control", "1.0", "Slayer6409")]
+[assembly: MelonInfo(typeof(JoystickCameraControl), "Joystick Camera Control", "1.0", "Slayer6409")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 
-namespace Better_Camera_Control
+namespace Joystick_Camera_Control
 {
 
     //Thanks to nitrog0d and loukylor for help with this
     //My code is probably a bit weird, but oh well it works.
 
-    public class BetterCameraControl : MelonMod
+    public class JoystickCameraControl : MelonMod
     {
         public override void OnApplicationStart()
         {
-            MelonLogger.Log("Better Camera Control, by Slayer, Started.");
+            MelonLogger.Log("Joystick Camera Control, by Slayer, Started.");
             
             ICustomShowableLayoutedMenu cm = ExpansionKitApi.CreateCustomQuickMenuPage(LayoutDescription.QuickMenu3Columns);
             ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu).AddSimpleButton("Toggle Camera Movement",toggleCameraMovement);

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Better Camera Control", "Better Camera Control\Better Camera Control.csproj", "{EFC480DE-4E55-4F2C-A4D7-DDB42DD2816B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Joystick Camera Control", "Better Camera Control\Joystick Camera Control.csproj", "{EFC480DE-4E55-4F2C-A4D7-DDB42DD2816B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
