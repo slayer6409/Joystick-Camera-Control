@@ -21,16 +21,17 @@ namespace Joystick_Camera_Control
         public override void OnApplicationStart()
         {
             MelonLogger.Log("Joystick Camera Control, by Slayer, Started.");
-            
-            ICustomShowableLayoutedMenu cm = ExpansionKitApi.CreateCustomQuickMenuPage(LayoutDescription.QuickMenu3Columns);
+
+            ExpansionKitApi.GetExpandedMenu(ExpandedMenu.CameraQuickMenu).AddSimpleButton("Switch Turn Mode", switchTurnMode);
+            ExpansionKitApi.GetExpandedMenu(ExpandedMenu.CameraQuickMenu).AddSimpleButton("Local Camera Mode", swapMode);
             ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu).AddSimpleButton("Toggle Camera Movement",toggleCameraMovement);
         }
-        
         public override void OnUpdate()
         {
+            
             if (CameraMovement)
             {
-                if (Input.GetKeyDown(KeyCode.Joystick1Button9))
+                if (Input.GetKeyDown(KeyCode.Joystick1Button9)||Input.GetKeyDown(KeyCode.JoystickButton9))
                 {
                     turnMode = !turnMode;
                 }
@@ -44,10 +45,11 @@ namespace Joystick_Camera_Control
                 }
                 else
                 {
-                    if (Input.GetAxis("Horizontal") > .2f) moveHorizontal(Input.GetAxis("Horizontal"));
-                    if (Input.GetAxis("Horizontal") < -.2f) moveHorizontal(Input.GetAxis("Horizontal"));
-                    if (Input.GetAxis("Vertical") < -.2f) moveFrontBack(Input.GetAxis("Vertical"));
-                    if (Input.GetAxis("Vertical") > .2f) moveFrontBack(Input.GetAxis("Vertical"));
+                    var movementMod = 1.75f;
+                    if (Input.GetAxis("Horizontal") > .2f) moveHorizontal(Input.GetAxis("Horizontal") * movementMod);
+                    if (Input.GetAxis("Horizontal") < -.2f) moveHorizontal(Input.GetAxis("Horizontal") * movementMod);
+                    if (Input.GetAxis("Vertical") < -.2f) moveFrontBack(Input.GetAxis("Vertical") * movementMod);
+                    if (Input.GetAxis("Vertical") > .2f) moveFrontBack(Input.GetAxis("Vertical") * movementMod);
                 }
                 //if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickHorizontal") > .2f)
                 //if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickHorizontal") < -.2f) 
@@ -55,30 +57,28 @@ namespace Joystick_Camera_Control
                 if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical") > .2f) moveY(Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical"));
             }
         }
-        
-
+        private void switchTurnMode()
+        {
+            turnMode = !turnMode;
+        }
         private void toggleCameraMovement()
         {
             player = VRCPlayer.field_Internal_Static_VRCPlayer_0;
             if (player == null) return;
             if (CameraMovement)
             {
-                
                 CameraMovement = false;
                 player.field_Private_VRCPlayerApi_0.SetWalkSpeed(walkSpeed);
                 player.field_Private_VRCPlayerApi_0.SetRunSpeed(runSpeed);
                 player.field_Private_VRCPlayerApi_0.SetStrafeSpeed(strafeSpeed);
-
             }
             else
             {
                 var cam = UserCameraController.field_Internal_Static_UserCameraController_0;
-                if (cam != null)
+                if (cam == null) return;
+                while (cam.prop_EnumPublicSealedvaAtLoWoCO5vUnique_0 != EnumPublicSealedvaAtLoWoCO5vUnique.World)
                 {
-                    while (cam.prop_EnumPublicSealedvaAtLoWoCO5vUnique_0 != EnumPublicSealedvaAtLoWoCO5vUnique.World)
-                    {
-                        cam.viewFinder.transform.Find("PhotoControls/Left_Space").GetComponent<CameraInteractable>().Interact();
-                    }
+                    cam.viewFinder.transform.Find("PhotoControls/Left_Space").GetComponent<CameraInteractable>().Interact();
                 }
                 walkSpeed = player.field_Private_VRCPlayerApi_0.GetWalkSpeed();
                 runSpeed = player.field_Private_VRCPlayerApi_0.GetRunSpeed();
@@ -89,9 +89,12 @@ namespace Joystick_Camera_Control
                 player.field_Private_VRCPlayerApi_0.SetStrafeSpeed(0);
             }
         }
-
-
-
+        private void swapMode()
+        {
+            if (CameraMovement) toggleCameraMovement();
+            var cam = UserCameraController.field_Internal_Static_UserCameraController_0;
+            if (cam != null) cam.prop_EnumPublicSealedvaAtLoWoCO5vUnique_0 = EnumPublicSealedvaAtLoWoCO5vUnique.Local;
+        }
         private void moveFrontBack(float speed)
         {
             var camController = UserCameraController.field_Internal_Static_UserCameraController_0;
@@ -108,7 +111,6 @@ namespace Joystick_Camera_Control
             worldCameraVector += Vector3.Cross(Vector3.up,new Vector3((float)Math.Sin(camRot.y), 0f, (float)Math.Cos(camRot.y))*(speed*Time.deltaTime));
 
         }
-
         private void moveY(float speed)
         {
             var camController = UserCameraController.field_Internal_Static_UserCameraController_0;
@@ -116,8 +118,6 @@ namespace Joystick_Camera_Control
             worldCameraVector += new Vector3(0f, speed * Time.deltaTime, 0f);
 
         }
-
-
         public void rotate(float dir)
         {
             var camController = UserCameraController.field_Internal_Static_UserCameraController_0;
