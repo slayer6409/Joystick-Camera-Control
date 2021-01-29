@@ -21,10 +21,9 @@ namespace Joystick_Camera_Control
         public override void OnApplicationStart()
         {
             MelonLogger.Log("Joystick Camera Control, by Slayer, Started.");
-
+            ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu).AddSimpleButton("Toggle Camera Movement", toggleCameraMovement);
             ExpansionKitApi.GetExpandedMenu(ExpandedMenu.CameraQuickMenu).AddSimpleButton("Switch Turn Mode", switchTurnMode);
             ExpansionKitApi.GetExpandedMenu(ExpandedMenu.CameraQuickMenu).AddSimpleButton("Local Camera Mode", swapMode);
-            ExpansionKitApi.GetExpandedMenu(ExpandedMenu.QuickMenu).AddSimpleButton("Toggle Camera Movement",toggleCameraMovement);
         }
         public override void OnUpdate()
         {
@@ -57,6 +56,7 @@ namespace Joystick_Camera_Control
                 if (Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical") > .2f) moveY(Input.GetAxis("Oculus_CrossPlatform_SecondaryThumbstickVertical"));
             }
         }
+
         private void switchTurnMode()
         {
             turnMode = !turnMode;
